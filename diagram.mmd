@@ -1,0 +1,53 @@
+classDiagram
+    class Serializable {
+        <<abstract>>
+    }
+    
+    class BaseMessage {
+        +content: Union[str, list]
+        +additional_kwargs: dict
+        +response_metadata: dict
+        +type: str
+        +name: Optional[str]
+        +id: Optional[str]
+        +__init__(content, **kwargs)
+        +is_lc_serializable() bool
+        +get_lc_namespace() list[str]
+        +text() str
+        +__add__(other) ChatPromptTemplate
+        +pretty_repr(html) str
+        +pretty_print()
+    }
+    
+    class BaseMessageChunk {
+        +get_lc_namespace() list[str]
+        +__add__(other) BaseMessageChunk
+    }
+    
+    %% Functions
+    class merge_content {
+        <<function>>
+        +merge_content(first_content, *contents)
+    }
+    
+    class message_to_dict {
+        <<function>>
+        +message_to_dict(message) dict
+    }
+    
+    class messages_to_dict {
+        <<function>>
+        +messages_to_dict(messages) list[dict]
+    }
+    
+    class get_msg_title_repr {
+        <<function>>
+        +get_msg_title_repr(title, bold) str
+    }
+    
+    Serializable <|-- BaseMessage
+    BaseMessage <|-- BaseMessageChunk
+    BaseMessageChunk ..> merge_content : uses
+    BaseMessage ..> get_msg_title_repr : uses
+    message_to_dict ..> BaseMessage : takes as input
+    messages_to_dict ..> BaseMessage : takes as input
