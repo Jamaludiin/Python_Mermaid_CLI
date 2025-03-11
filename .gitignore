@@ -10,3 +10,9 @@ venv/
 
 # ignore these also
 llm_mermaid_image.py
+
+
+
+# Ignore generated diagram files
+*.png
+*.mmd
